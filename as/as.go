@@ -87,7 +87,16 @@ func assemble(lines []string) {
 		}
 
 		/* number literal */
-		if num, err := strconv.Atoi(line); err == nil {
+		var numCandidate string
+		var base int
+		if strings.HasPrefix(line, "0x") {
+			numCandidate = line[2:]
+			base = 16
+		} else {
+			numCandidate = line
+			base = 10
+		}
+		if num, err := strconv.ParseInt(numCandidate, base, 64); err == nil {
 			emit(uint64(num))
 			continue
 		}
