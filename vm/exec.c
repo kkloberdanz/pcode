@@ -276,8 +276,12 @@ top:
         b = stack[SP];
         DEC(SP);
         a = stack[SP];
+        INC(SP, stack_len);
+        dbg("JLT:  0x%llx == 0x%llx ? (0x%lx)", a, b, program[PC]);
         if (a < b) {
             PC = program[PC];
+        } else {
+            INC(PC, program_len);
         }
         break;
     }
@@ -288,8 +292,12 @@ top:
         b = stack[SP];
         DEC(SP);
         a = stack[SP];
+        INC(SP, stack_len);
+        dbg("JLTE:  0x%llx == 0x%llx ? (0x%lx)", a, b, program[PC]);
         if (a <= b) {
             PC = program[PC];
+        } else {
+            INC(PC, program_len);
         }
         break;
     }
@@ -300,8 +308,12 @@ top:
         b = stack[SP];
         DEC(SP);
         a = stack[SP];
+        INC(SP, stack_len);
+        dbg("JGT:  0x%llx == 0x%llx ? (0x%lx)", a, b, program[PC]);
         if (a > b) {
             PC = program[PC];
+        } else {
+            INC(PC, program_len);
         }
         break;
     }
@@ -312,8 +324,12 @@ top:
         b = stack[SP];
         DEC(SP);
         a = stack[SP];
+        INC(SP, stack_len);
+        dbg("JGTE:  0x%llx == 0x%llx ? (0x%lx)", a, b, program[PC]);
         if (a >= b) {
             PC = program[PC];
+        } else {
+            INC(PC, program_len);
         }
         break;
     }
