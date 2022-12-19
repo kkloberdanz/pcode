@@ -92,6 +92,9 @@ func assemble(lines []string) {
 		if strings.HasPrefix(line, "0x") {
 			numCandidate = line[2:]
 			base = 16
+		} else if strings.HasPrefix(line, "00") {
+			numCandidate = line[2:]
+			base = 8
 		} else {
 			numCandidate = line
 			base = 10
