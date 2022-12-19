@@ -53,13 +53,16 @@ func readFile() []string {
 			break
 		}
 		line = strings.TrimSpace(line)
+		commentStart := strings.Index(line, ";")
+		if commentStart > 0 {
+			line = strings.TrimSpace(line[:commentStart])
+		}
 		for _, word := range strings.Split(line, " ") {
 			if len(line) > 0 {
 				lines = append(lines, word)
 			}
 		}
 	}
-	lines = append(lines, "HALT")
 	return lines
 }
 
