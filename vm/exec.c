@@ -381,7 +381,7 @@ top:
         DEC(SP);
         a = stack[SP];
         dbg("SQRT_I64(0x%lx)", a);
-        stack[SP] = sqrt(a);
+        stack[SP] = sqrt(a); /* TODO: vendor sqrt function into repo */
         INC(SP, stack_len);
         break;
     }
