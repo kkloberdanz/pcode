@@ -21,8 +21,8 @@ var opcodes = map[string]uint64{
 	"MUL_I64":   0x0008,
 	"DIV_I64":   0x0009,
 	"JMP":       0x000a,
-	"DEC":       0x000b,
-	"INC":       0x000c,
+	"DEC_I64":   0x000b,
+	"INC_I64":   0x000c,
 	"JZ":        0x000d,
 	"JNZ":       0x000e,
 	"CALL":      0x000f,
@@ -32,6 +32,12 @@ var opcodes = map[string]uint64{
 	"JLTE":      0x0013,
 	"JGT":       0x0014,
 	"JGTE":      0x0015,
+	"SQRT_I64":  0x0016,
+	"READ_I64":  0x0017,
+	"MOD_I64":   0x0018,
+	"DUP_I64":   0x0019,
+	"STORE_I64": 0x001a,
+	"LOAD_I64":  0x001b,
 }
 
 var labels = map[string]int{}

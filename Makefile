@@ -12,7 +12,7 @@ as:
 .PHONY: fmt
 fmt:
 	cd vm && $(MAKE) fmt
-	cd as && go fmt as.go
+	cd as && go fmt .
 
 .PHONY: clean
 clean:

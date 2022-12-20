@@ -13,8 +13,8 @@ enum vm_opcodes {
     MUL_I64,
     DIV_I64,
     JMP,
-    DEC,
-    INC,
+    DEC_I64,
+    INC_I64,
     JZ,
     JNZ,
     CALL,
@@ -23,7 +23,13 @@ enum vm_opcodes {
     JLT,
     JLTE,
     JGT,
-    JGTE
+    JGTE,
+    SQRT_I64,
+    READ_I64,
+    MOD_I64,
+    DUP_I64,
+    STORE_I64,
+    LOAD_I64
 };
 
 #endif /* VM_OPCODES_H */

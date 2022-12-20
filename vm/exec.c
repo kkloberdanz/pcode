@@ -1,4 +1,5 @@
 #include <inttypes.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -93,8 +94,10 @@ enum vm_error vm_run(FILE *input_file, u64 *exit_code) {
     size_t CP = 0;
     u64 *stack = NULL;
     u64 *call_stack = NULL;
+    u64 *global_storage = NULL;
     size_t stack_len = 10000000;
     size_t call_stack_len = 10000000;
+    size_t global_storage_len = 1000;
     u64 *program = NULL;
     size_t program_len = 0;
 
@@ -117,6 +120,13 @@ enum vm_error vm_run(FILE *input_file, u64 *exit_code) {
         goto done;
     }
 
+    global_storage = malloc(global_storage_len * sizeof(global_storage));
+    if (!global_storage) {
+        perror("malloc");
+        rc = MEMORY_ALLOCATION_ERROR;
+        goto done;
+    }
+
     /* This is the hot path.
      * Use goto to ensure best possible performance on any platform */
 top:
@@ -131,6 +141,17 @@ top:
     dbg("OPCODE: %lx\n", opcode);
     INC(PC, program_len);
     switch (opcode) {
+    case STORE_I64:
+        global_storage[program[PC]] = stack[SP - 1];
+        INC(PC, program_len);
+        break;
+
+    case LOAD_I64:
+        stack[SP] = global_storage[program[PC]];
+        INC(SP, stack_len);
+        INC(PC, program_len);
+        break;
+
     case PUSH_I64:
         dbg("PUSH_I64 %llx", program[PC]);
         stack[SP] = program[PC];
@@ -168,6 +189,7 @@ top:
         a = stack[SP];
         DEC(SP);
         b = stack[SP];
+        dbg("MUL_I64 %llx %llx", a, b);
         stack[SP] = a * b;
         INC(SP, stack_len);
         break;
@@ -184,6 +206,17 @@ top:
         break;
     }
 
+    case MOD_I64: {
+        i64 a, b;
+        DEC(SP);
+        a = stack[SP];
+        DEC(SP);
+        b = stack[SP];
+        stack[SP] = a % b;
+        INC(SP, stack_len);
+        break;
+    }
+
     case POP_I64:
         DEC(SP);
         break;
@@ -196,6 +229,14 @@ top:
         dbg("PRINT_I64 %llx", stack[SP - 1]);
         printf("%" PRIu64 "\n", stack[SP - 1]);
         break;
+
+    case READ_I64: {
+        i64 a;
+        scanf("%lld", &a);
+        stack[SP] = a;
+        INC(SP, stack_len);
+        break;
+    }
 
     case JMP:
         PC = program[PC];
@@ -237,16 +278,16 @@ top:
         }
         break;
 
-    case INC:
+    case INC_I64:
         if (SP == 0) {
             rc = SP_OUT_OF_BOUNDS_ERROR;
             goto done;
         }
         stack[SP - 1]++;
-        dbg("INC (%llx)", stack[SP - 1]);
+        dbg("INC_I64 (%llx)", stack[SP - 1]);
         break;
 
-    case DEC:
+    case DEC_I64:
         if (SP == 0) {
             rc = SP_OUT_OF_BOUNDS_ERROR;
             goto done;
@@ -260,6 +301,7 @@ top:
         b = stack[SP];
         DEC(SP);
         a = stack[SP];
+        INC(SP, stack_len);
         INC(SP, stack_len);
         dbg("JEQ:  0x%llx == 0x%llx ? (0x%lx)", a, b, program[PC]);
         if (a == b) {
@@ -325,12 +367,27 @@ top:
         DEC(SP);
         a = stack[SP];
         INC(SP, stack_len);
-        dbg("JGTE:  0x%llx == 0x%llx ? (0x%lx)", a, b, program[PC]);
+        dbg("JGTE: 0x%llx == 0x%llx ? (0x%lx)", a, b, program[PC]);
         if (a >= b) {
             PC = program[PC];
         } else {
             INC(PC, program_len);
         }
+        break;
+    }
+
+    case SQRT_I64: {
+        u64 a;
+        DEC(SP);
+        a = stack[SP];
+        dbg("SQRT_I64(0x%lx)", a);
+        stack[SP] = sqrt(a);
+        INC(SP, stack_len);
+        break;
+    }
+
+    case DUP_I64: {
+        stack[SP] = stack[SP - 1];
         break;
     }
 
