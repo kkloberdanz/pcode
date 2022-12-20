@@ -5,6 +5,7 @@
  * Primitive types
  */
 
+#include <inttypes.h>
 #include <stdint.h>
 
 #if defined(__GNUC__)

@@ -1,11 +1,10 @@
-#include <inttypes.h>
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "error.h"
 #include "exec.h"
 #include "load.h"
+#include "math.h"
 #include "opcodes.h"
 #include "types.h"
 
@@ -232,7 +231,9 @@ top:
 
     case READ_I64: {
         i64 a;
-        scanf("%" PRIi64, &a);
+        int x;
+        x = scanf("%" PRIi64, &a);
+        (void)x;
         stack[SP] = a;
         INC(SP, stack_len);
         break;
@@ -381,7 +382,7 @@ top:
         DEC(SP);
         a = stack[SP];
         dbg("SQRT_I64(0x%lx)", a);
-        stack[SP] = sqrt(a); /* TODO: vendor sqrt function into repo */
+        stack[SP] = sqrt_u64(a);
         INC(SP, stack_len);
         break;
     }

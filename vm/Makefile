@@ -1,7 +1,7 @@
 CC=cc
 OPT=-O3
 STD=-std=c89
-LDFLAGS=-lm # TODO: eliminate -lm with vendoring math functions into repo
+LDFLAGS=
 WARNING=-Wall -Wextra -Wpedantic -Wfloat-equal -Wundef -Wshadow \
 		-Wpointer-arith -Wcast-align -Wstrict-prototypes -Wmissing-prototypes \
 		-Wstrict-overflow=2 -Wwrite-strings -Waggregate-return -Wcast-qual \
