@@ -232,7 +232,7 @@ top:
 
     case READ_I64: {
         i64 a;
-        scanf("%lld", &a);
+        scanf("%" PRIi64, &a);
         stack[SP] = a;
         INC(SP, stack_len);
         break;
@@ -414,6 +414,7 @@ done:
     print_stack(stack, SP);
     free(stack);
     free(call_stack);
+    free(global_storage);
     print_program(program, program_len);
     if (program) {
         vm_unload(&program);
