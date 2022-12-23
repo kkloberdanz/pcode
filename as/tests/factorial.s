@@ -1,5 +1,5 @@
 start:
-    PUSH_I64 9      ; store number to compute N! of at location 0
+    READ_I64        ; store number to compute N! of at location 0
     STORE_I64 0     ; location 0 is the accumulated multiplication
     STORE_I64 1     ; location 1 is the decrementing count
 

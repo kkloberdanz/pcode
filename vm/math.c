@@ -1,4 +1,3 @@
-#include <math.h>
 #include <stdio.h>
 
 #include "math.h"
@@ -20,11 +19,9 @@ u64 sqrt_u64(u64 n) {
 double sqrt_f64(double n) {
     double x = n;
     double old_x;
-    size_t iterations = 0;
     do {
         old_x = x;
         x = (x + (n / x)) / 2;
-        iterations++;
     } while (abs_f64(old_x - x) > 1e-300);
     return x;
 }

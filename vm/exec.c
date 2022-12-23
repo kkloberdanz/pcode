@@ -233,7 +233,10 @@ top:
         i64 a;
         int x;
         x = scanf("%" PRIi64, &a);
-        (void)x;
+        if (x != 1) {
+            perror("scanf");
+            exit(EXIT_FAILURE);
+        }
         stack[SP] = a;
         INC(SP, stack_len);
         break;
