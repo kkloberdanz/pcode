@@ -1,8 +1,11 @@
 ; TODO: This program will require some intermediate variable storage mechanism
 
 start:
-    PUSH_I64 97
+    READ_I64        ; read in 'N'
     PUSH_I64 2      ; start with 2
+
+    JLT no          ; < 2 is not prime
+    JEQ yes         ; 2 is prime
 
 loop:
     JEQ no          ; if we are at N, then it is not prime
